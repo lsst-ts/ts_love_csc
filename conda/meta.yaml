@@ -1,0 +1,39 @@
+{% set data= load_setup_py_data() %}
+package:
+  name: ts-love-csc
+  version: {{ data.get('version') }}
+
+source:
+  path: ../
+
+build:
+  noarch: generic
+  script: python -m pip install --no-deps --ignore-installed .
+
+test:
+  requires:
+    - ts-conda-build =0.3
+    - ts-idl {{ idl_version }}
+    - ts-salobj {{ salobj_version }}
+  source_files:
+    - python
+    - bin
+    - tests
+    - setup.cfg
+  commands:
+    - py.test
+
+requirements:
+  host:
+    - python
+    - pip
+    - setuptools_scm
+    - setuptools
+    - pytest-runner
+  run:
+    - python
+    - setuptools
+    - setuptools_scm
+    - psutil
+    - ts-idl {{ idl_version }}
+    - ts-salobj {{ salobj_version }}

@@ -19,9 +19,33 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-try:
-    from .version import *
-except ImportError:
-    __version__ = "?"
+import unittest
 
-from .csc import *
+from lsst.ts.love.csc.utils import get_available_components, parse_auth_request
+
+
+class UtilsTestCase(unittest.TestCase):
+    def test_get_available_components(self):
+        available_components = get_available_components()
+
+        self.assertIn("LOVE", available_components)
+
+    def test_parse_auth_request(self):
+
+        request = "+user1@node1,+user2@node2,-user3@node3"
+
+        to_add, to_remove = parse_auth_request(request)
+
+        self.assertEqual({"user1@node1", "user2@node2"}, to_add)
+        self.assertEqual({"user3@node3"}, to_remove)
+
+    def test_parse_auth_request_fail(self):
+
+        request = "+user1@node1,+user2@node2,-user3@node3,bad@request"
+
+        with self.assertRaises(RuntimeError):
+            parse_auth_request(request)
+
+
+if __name__ == "__main__":
+    unittest.main()

@@ -49,3 +49,14 @@ Python API reference
 .. automodapi:: lsst.ts.love.csc
    :no-main-docstr:
    :no-inheritance-diagram:
+
+Version History
+===============
+
+The version history is at the following link.
+
+.. toctree::
+    version_history
+    :maxdepth: 1
+
+The released version is `here <https://github.com/lsst-ts/ts_love_csc/releases>`_.
